@@ -28,6 +28,7 @@ struct SVector4
     static float Magnitud(const SVector4& left);
     static SVector4 Normalize(const SVector4& right);
     static float Distance(const SVector4& left, const SVector4& right);
+    friend std::ostream& operator<<(std::ostream& ost, const SVector4& v);
 
 private:
     static const size_t m_length = 4;

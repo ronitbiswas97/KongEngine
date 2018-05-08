@@ -212,3 +212,9 @@ float SVector4::Distance(const SVector4& left, const SVector4& right)
     float w((left.w - right.w) * (left.w - right.w));
     return sqrtf(x + y + z + w);
 }
+
+std::ostream& operator<<(std::ostream& ost, const SVector4& v)
+{
+	ost << v.x << " " << v.y << " " << v.z <<" "<<v.w;
+	return ost;
+}
