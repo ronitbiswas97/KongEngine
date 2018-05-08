@@ -1,7 +1,7 @@
 #include<iostream>
 #include "SVector2.cpp"
+#include "SVector4.cpp"
 
-//using namespace std;
 int main()
 {
     SVector2  mv1(1.0f,1.0f);

@@ -7,10 +7,9 @@ SVector2::SVector2(): x{ 0 },y{ 0 }
 
 }
 
-SVector2::SVector2(float x, float y)
+SVector2::SVector2(float x, float y): x{x},y{y}
 {
-    this->x=x;
-    this->y=y;
+
 }
 
 SVector2::SVector2(const SVector2& v): x{ v.x },y{ v.y }

@@ -1,10 +1,9 @@
+#ifndef SVECTOR2_H
+#define SVECTOR2_H
 struct SVector2
 		{
-			union
-			{
-				struct { float x, y; };
-				struct { float r, g; };
-			};
+
+            struct { float x, y; };
 
 			SVector2();
 			SVector2(float x);
@@ -37,3 +36,5 @@ struct SVector2
 		private:
 			static const size_t m_length = 2;
 };
+
+#endif
