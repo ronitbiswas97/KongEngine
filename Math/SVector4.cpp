@@ -28,15 +28,6 @@ const float& SVector4::operator[](size_t index) const
     return *(&x + index);
 }
 
-SVector4& SVector4::operator=(const SVector4& v)
-{
-    x = v.x;
-    y = v.y;
-    z = v.z;
-    w = v.w;
-    return *this;
-}
-
 SVector4 operator+(const SVector4 & left, float right)
 {
     return SVector4

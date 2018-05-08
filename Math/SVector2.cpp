@@ -29,13 +29,6 @@ const float& SVector2::operator[](size_t index) const
     return *(&x + index);
 }
 
-SVector2& SVector2::operator=(const SVector2& v)
-{
-    x = v.x;
-    y = v.y;
-    return *this;
-}
-
 SVector2 operator+(const SVector2 & left, float right)
 {
     return SVector2
@@ -186,4 +179,14 @@ float SVector2::Distance(const SVector2& left, const SVector2& right)
     float x((left.x - right.x) * (left.x - right.x));
     float y((left.y - right.y) * (left.y - right.y));
     return sqrtf(x + y);
+}
+
+SVector2 SVector2::Projection(const SVector2 & left, const SVector2 & right)
+{
+	float scalar
+	(
+		SVector2::Dot(left, right) / SVector2::Dot(right, right)
+	);
+
+	return SVector2(scalar * right);
 }
