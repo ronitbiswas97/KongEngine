@@ -24,11 +24,12 @@ struct SVector4
     friend SVector4 operator/(const SVector4& left, const SVector4& right);
     friend bool operator==(const SVector4& left, const SVector4& right);
     friend bool operator!=(const SVector4& left, const SVector4& right);
+    friend std::ostream& operator<<(std::ostream& ost, const SVector4& v);
     static float Dot(const SVector4& left, const SVector4& right);
     static float Magnitud(const SVector4& left);
     static SVector4 Normalize(const SVector4& right);
     static float Distance(const SVector4& left, const SVector4& right);
-    friend std::ostream& operator<<(std::ostream& ost, const SVector4& v);
+
 
 private:
     static const size_t m_length = 4;

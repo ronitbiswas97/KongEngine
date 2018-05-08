@@ -154,6 +154,13 @@ bool operator!=(const SVector2& left, const SVector2& right)
     return !(left == right);
 }
 
+std::ostream& operator<<(std::ostream& ost, const SVector2& v)
+{
+	ost << v.x << " " << v.y;
+	return ost;
+}
+
+
 float SVector2::Dot(const SVector2& left, const SVector2& right)
 {
     SVector2 temp(left * right);

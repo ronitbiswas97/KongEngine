@@ -179,6 +179,12 @@ bool operator!=(const SVector4& left, const SVector4& right)
     return !(left == right);
 }
 
+std::ostream& operator<<(std::ostream& ost, const SVector4& v)
+{
+	ost << v.x << " " << v.y << " " << v.z <<" "<<v.w;
+	return ost;
+}
+
 float SVector4::Dot(const SVector4& left, const SVector4& right)
 {
     SVector4 temp(left * right);
@@ -213,8 +219,4 @@ float SVector4::Distance(const SVector4& left, const SVector4& right)
     return sqrtf(x + y + z + w);
 }
 
-std::ostream& operator<<(std::ostream& ost, const SVector4& v)
-{
-	ost << v.x << " " << v.y << " " << v.z <<" "<<v.w;
-	return ost;
-}
+
