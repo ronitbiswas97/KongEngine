@@ -12,25 +12,36 @@ CWindow::CWindow(int width, int height, const char * name): m_width{ width },m_h
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     m_window = glfwCreateWindow(m_width, m_height, m_name, nullptr, nullptr);
     if(!m_window)
-        {
-            std::cout<<"Error en linea 18"<<std::endl;
-        }
+    {
+        std::cout<<"Error en linea 18"<<std::endl;
+    }
     glfwMakeContextCurrent(m_window);
-    currentWindow = m_window;
+    glfwSetFrameBufferSizeCallback(m_window, FrameBufferSizeCallBack);
+    glfwSetCursorPosCallback(m_window,CursorPosCallBack);
+    currentWindow = this;
 }
 
-CWindow::CursorPosition(double xPos, double yPos): mouse.x{xPos}, mouse.y{yPos}
+CWindow::CursorPosition(double xPos, double yPos)
 {
-
+    mouse.x=xPos;
+    mouse.y=yPos;
 }
 
 CWindow::FrameBufferSize(int width, int height)
 {
-
+    frameBufferSize.x=width;
+    frameBufferSize.y=height;
 }
 CWindow::FrameBufferSizeCallBack(GLFWwindow* window, int width, int height)
 {
+    std::cout<<width<<std::endl;
+	std::cout<<height<<std::endl;
+
+    FrameBufferSize(width, height);
 }
-CWindow::CursosPosCallBack(GLFWwindow* window, double xPos, double yPos)
+CWindow::CursorPosCallBack(GLFWwindow* window, double xPos, double yPos)
 {
+    std::cout<<xPos<<std::endl;
+	std::cout<<yPos<<std::endl;
+    CursorPosition(xPos,yPos);
 }
