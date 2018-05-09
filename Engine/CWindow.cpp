@@ -2,16 +2,14 @@
 #include <iostream>
 #include "CWindow.h"
 
-GLFWwindow* Window::currentWindow{ nullptr };
+GLFWwindow* CWindow::currentWindow{ nullptr };
 
 CWindow::CWindow(int width, int height, const char * name): m_width{ width },m_height{ height },m_name{ name }
 {
-
     glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
     m_window = glfwCreateWindow(m_width, m_height, m_name, nullptr, nullptr);
     if(!m_window)
         {
