@@ -182,17 +182,49 @@ SMatrix4x4 SMatrix4x4::Rotate(const SMatrix4x4& matrix, float angle, const SVect
 	return matrix * rotate;
 }
 
-SMatrix4x4 SMatrix4x4::Ortho(float left, float right, float bottom, float top, float, float)
+SMatrix4x4 SMatrix4x4::Ortho(float left, float right, float bottom, float top, float near, float far)
 {
-	return SMatrix4x4();
+	SMatrix4x4 result;
+	result[0][0] = 2.0f / (right - left);
+	result[1][1] = 2.0f / (top - bottom);
+	result[2][2] = 2.0f / (far - near);
+	result[3][0] = -(right + left) / (right - left);
+	result[3][1] = -(top + bottom) / (top - bottom);
+	result[3][2] = -(far + near) / (far - near);
+
+	return result;
 }
 
-SMatrix4x4 SMatrix4x4::Perspective(float fovy, float ration, float, float)
+SMatrix4x4 SMatrix4x4::Perspective(float fovy, float apect, float near, float far)
 {
-	return SMatrix4x4();
+	SMatrix4x4 result;
+	result[0][0] = 1.0f / (tan(fovy / 2.0f) * apect);
+	result[1][1] = 1.0f / tan(fovy);
+	result[2][2] = -(far * near) / (far - near);
+	result[2][3] = -1.0f;
+	result[3][2] = -(2.0f * far * near) / (far - near);
+
+	return result;
 }
 
 SMatrix4x4 SMatrix4x4::LookAt(const SVector3& eye, const SVector3& target, const SVector3& up)
 {
-	return SMatrix4x4();
+	SVector3 zAxis(SVector3::Normalize(eye - target));
+	SVector3 xAxis(SVector3::Normalize(SVector3::Cross(up, zAxis)));
+	SVector3 yAxis(SVector3::Cross(zAxis, xAxis));
+
+	SMatrix4x4 rotate
+		(
+			SVector4(xAxis.x, xAxis.y, xAxis.z, 0.0f),
+			SVector4(yAxis.x, yAxis.y, yAxis.z, 0.0f),
+			SVector4(zAxis.x, zAxis.y, zAxis.z, 0.0f),
+			SVector4(0, 0, 0, 1.0f)
+		);
+
+	SMatrix4x4 translate;
+	translate[3][0] = -eye.x;
+	translate[3][1] = -eye.y;
+	translate[3][2] = -eye.z;
+
+	return rotate * translate;
 }
