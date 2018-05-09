@@ -2,7 +2,6 @@
 #define SVECTOR2_H
 struct SVector2
 {
-
     struct { float x, y; };
     SVector2();
     SVector2(float x);
@@ -31,7 +30,6 @@ struct SVector2
     static SVector2 Normalize(const SVector2& v);
     static float Distance(const SVector2& left, const SVector2& right);
     static SVector2 Projection(const SVector2 & left, const SVector2 & right);
-
 
 private:
     static const size_t m_length = 2;

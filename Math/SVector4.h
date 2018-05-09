@@ -34,5 +34,4 @@ struct SVector4
 private:
     static const size_t m_length = 4;
 };
-
 #endif
