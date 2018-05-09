@@ -32,7 +32,7 @@ struct SMatrix4x4
 	static SMatrix4x4 Scale(const SMatrix4x4& matrix, const SVector3& vector);
 	static SMatrix4x4 Rotate(const SMatrix4x4& matrix, float angle, const SVector3& axis);
 	static SMatrix4x4 Ortho(float left, float right, float bottom, float top, float near, float far);
-	static SMatrix4x4 Perspective(float fovy, float ration, float near, float far);
+	static SMatrix4x4 Perspective(float fovy, float apect, float near, float far);
 	static SMatrix4x4 LookAt(const SVector3& eye, const SVector3& target, const SVector3& up);
 
 };
