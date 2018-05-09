@@ -7,21 +7,21 @@
 class CWindow
 {
 public:
-
-    GLFWwindow* m_window;
     static CWindow* currentWindow;
+    GLFWwindow* m_window;
+private:
     const char* m_name;
     SVector2 frameBufferSize;
     SVector2 mousePosition;
-
 public:
-    cWindow(int width, int height, const char* name);
-
+    CWindow(int width, int height, const char* name);
+    void GetCursosPosition()const;
+    void GetFrameBuffer()const;
 private:
     void CursorPosition(double xPos, double yPos);
-    static FrameBufferSize(int width, int height);
-    static FrameBufferSizeCallBack(GLFWwindow* window, int width, int height);
-    static CursorPosCallBack(GLFWwindow* window, double xPos, double yPos);
+    void FrameBufferSize(int width, int height);
+    static void FrameBufferSizeCallBack(GLFWwindow* window, int width, int height);
+    static void CursorPosCallBack(GLFWwindow* window, double xPos, double yPos);
 };
 
 #endif

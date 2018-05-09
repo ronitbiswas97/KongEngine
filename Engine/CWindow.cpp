@@ -36,12 +36,11 @@ CWindow::FrameBufferSizeCallBack(GLFWwindow* window, int width, int height)
 {
     std::cout<<width<<std::endl;
 	std::cout<<height<<std::endl;
-
-    FrameBufferSize(width, height);
+    currentWindow->FrameBufferSize(xPos,yPos);
 }
 CWindow::CursorPosCallBack(GLFWwindow* window, double xPos, double yPos)
 {
     std::cout<<xPos<<std::endl;
 	std::cout<<yPos<<std::endl;
-    CursorPosition(xPos,yPos);
+    currentWindow->CursorPosition(xPos,yPos);
 }
