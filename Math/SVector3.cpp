@@ -247,3 +247,8 @@ SVector3 SVector3::Cross(const SVector3& left, const SVector3& right)
 		left.x * right.y - left.y * right.x
 	);
 }
+
+SVector3 SVector3::Lerp(const SVector3& a, const SVector3& b, float t)
+{
+	return SVector3((1 - t) * a + b * t);
+}

@@ -1,184 +1,215 @@
-#include <cmath>
 #include <cassert>
+#include <cmath>
+
 #include "SVector2.h"
 
-SVector2::SVector2(): x{ 0 },y{ 0 }
+SVector2::SVector2()
+	: SVector2(0.0f)
 {
-
 }
 
-SVector2::SVector2(float x, float y): x{x},y{y}
+SVector2::SVector2(float x)
+	: SVector2(x, x)
 {
-
 }
 
-SVector2::SVector2(const SVector2& v): x{ v.x },y{ v.y }
+SVector2::SVector2(float x, float y)
+	: x(x), y(y)
 {
+}
 
+SVector2::SVector2(const SVector2& SVector)
+	: SVector2(SVector.x, SVector.y)
+{
 }
 
 float& SVector2::operator[](size_t index)
 {
-    assert(index >= 0 && index < m_length);
-    return *(&x + index);
+	assert(index >= 0 && index < 2);
+	return *(&x + index);
 }
 
 const float& SVector2::operator[](size_t index) const
 {
-    assert(index >= 0 && index < m_length);
-    return *(&x + index);
+	assert(index >= 0 && index < 2);
+	return *(&x + index);
 }
 
-SVector2 operator+(const SVector2 & left, float right)
+SVector2& SVector2::operator+=(const SVector2& right)
 {
-    return SVector2
-    (
-        left.x + right,
-        left.y + right
-    );
+	x += right.x;
+	y += right.y;
+
+	return *this;
+}
+
+SVector2& SVector2::operator-=(const SVector2& right)
+{
+	x -= right.x;
+	y -= right.y;
+
+	return *this;
+}
+
+SVector2& SVector2::operator*=(const SVector2& right)
+{
+	x *= right.x;
+	y *= right.y;
+
+	return *this;
+}
+
+SVector2& SVector2::operator/=(const SVector2& right)
+{
+	x /= right.x;
+	y /= right.y;
+
+	return *this;
 }
 
 SVector2 operator+(float left, const SVector2& right)
 {
-    return SVector2
-    (
-        left + right.x,
-        left + right.y
-    );
+	return SVector2
+	(
+		left + right.x,
+		left + right.y
+	);
+}
+
+SVector2 operator+(const SVector2& left, float right)
+{
+	return SVector2
+	(
+		left.x + right,
+		left.y + right
+	);
 }
 
 SVector2 operator+(const SVector2& left, const SVector2& right)
 {
-    return SVector2
-    (
-        left.x + right.x,
-        left.y + right.y
-    );
-}
-
-SVector2 operator-(const SVector2 & left, float right)
-{
-    return SVector2
-    (
-        left.x - right,
-        left.y - right
-    );
+	return SVector2
+	(
+		left.x + right.x,
+		left.y + right.y
+	);
 }
 
 SVector2 operator-(float left, const SVector2& right)
 {
-    return SVector2
-    (
-        left - right.x,
-        left - right.y
-    );
+	return SVector2
+	(
+		left - right.x,
+		left - right.y
+	);
+}
+
+SVector2 operator-(const SVector2& left, float right)
+{
+	return SVector2
+	(
+		left.x - right,
+		left.y - right
+	);
 }
 
 SVector2 operator-(const SVector2& left, const SVector2& right)
 {
-    return SVector2
-    (
-        left.x - right.x,
-        left.y - right.y
-    );
-}
-
-SVector2 operator*(const SVector2 & left, float right)
-{
-    return SVector2
-    (
-        left.x * right,
-        left.y * right
-    );
+	return SVector2
+	(
+		left.x - right.x,
+		left.y - right.y
+	);
 }
 
 SVector2 operator*(float left, const SVector2& right)
 {
-    return SVector2
-    (
-        left * right.x,
-        left * right.y
-    );
+	return SVector2
+	(
+		left * right.x,
+		left * right.y
+	);
+}
+
+SVector2 operator*(const SVector2& left, float right)
+{
+	return SVector2
+	(
+		left.x * right,
+		left.y * right
+	);
 }
 
 SVector2 operator*(const SVector2& left, const SVector2& right)
 {
-    return SVector2
-    (
-        left.x * right.x,
-        left.y * right.y
-    );
-}
-
-SVector2 operator/(const SVector2 & left, float right)
-{
-    return SVector2
-    (
-        left.x / right,
-        left.y / right
-    );
+	return SVector2
+	(
+		left.x * right.x,
+		left.y * right.y
+	);
 }
 
 SVector2 operator/(float left, const SVector2& right)
 {
-    return SVector2
-    (
-        left / right.x,
-        left / right.y
-    );
+	return SVector2
+	(
+		left / right.x,
+		left / right.y
+	);
+}
+
+SVector2 operator/(const SVector2& left, float right)
+{
+	return SVector2
+	(
+		left.x / right,
+		left.y / right
+	);
 }
 
 SVector2 operator/(const SVector2& left, const SVector2& right)
 {
-    return SVector2
-    (
-        left.x / right.x,
-        left.y / right.y
-    );
+	return SVector2
+	(
+		left.x / right.x,
+		left.y / right.y
+	);
 }
 
 bool operator==(const SVector2& left, const SVector2& right)
 {
-    return (left.x == right.x && left.y == right.y);
+	return (left.x == right.x && left.y == right.y);
 }
 
 bool operator!=(const SVector2& left, const SVector2& right)
 {
-    return !(left == right);
+	return !(left == right);
 }
 
-std::ostream& operator<<(std::ostream& ost, const SVector2& v)
+std::ostream& operator<<(std::ostream& ost, const SVector2& SVector)
 {
-	ost << v.x << " " << v.y;
+	ost << SVector.x << " " << SVector.y;
 	return ost;
 }
 
-
 float SVector2::Dot(const SVector2& left, const SVector2& right)
 {
-    SVector2 temp(left * right);
-    return (temp.x + temp.y);
+	SVector2 result(left * right);
+	return (result.x + result.y);
 }
 
-float SVector2::Magnitud(const SVector2 & v)
+float SVector2::Magnitud(const SVector2& SVector)
 {
-    float x{ v.x * v.x };
-    float y{ v.y * v.y };
-    return sqrtf(x + y);
+	return sqrtf(SVector2::Dot(SVector, SVector));
 }
-SVector2 SVector2::Normalize(const SVector2& v)
+
+SVector2 SVector2::Normalize(const SVector2& SVector)
 {
-    float x{ v.x * v.x };
-    float y{ v.y * v.y };
-    float magnitud{ sqrtf(x + y) };
-    return SVector2(x / magnitud, y / magnitud);
+	return SVector2((SVector / SVector2::Magnitud(SVector)));
 }
 
 float SVector2::Distance(const SVector2& left, const SVector2& right)
 {
-    float x((left.x - right.x) * (left.x - right.x));
-    float y((left.y - right.y) * (left.y - right.y));
-    return sqrtf(x + y);
+	return SVector2::Magnitud(left - right);
 }
 
 SVector2 SVector2::Projection(const SVector2 & left, const SVector2 & right)
@@ -189,4 +220,9 @@ SVector2 SVector2::Projection(const SVector2 & left, const SVector2 & right)
 	);
 
 	return SVector2(scalar * right);
+}
+
+SVector2 SVector2::Lerp(const SVector2& a, const SVector2& b, float t)
+{
+	return SVector2((1 - t) * a + b * t);
 }

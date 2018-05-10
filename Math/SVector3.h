@@ -43,6 +43,7 @@ struct SVector3
 	static float Distance(const SVector3& left, const SVector3& right);
 	static SVector3 Projection(const SVector3& left, const SVector3& right);
 	static SVector3 Cross(const SVector3& left, const SVector3& right);
+	static SVector3 Lerp(const SVector3& a, const SVector3& b, float t);
 };
 
 #endif // !SVECTOR3_H
