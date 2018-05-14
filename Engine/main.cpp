@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "CWindow.h"
+#include "CShader.h"
 
 unsigned int program;
 unsigned int VAO;
@@ -77,7 +78,7 @@ unsigned int initShader(const std::string& vertexFileSource, const std::string& 
 void init()
 {
 	program = initShader(readShaderFile("src/myVertexShader.vert"), readShaderFile("src/DuskToDawn.frag"));
-	
+
 	float vertices[]
 	{
 		-1.0f, -1.0f, 0.0f, 1.0f,
