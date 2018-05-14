@@ -8,77 +8,12 @@
 #include "CWindow.h"
 #include "CShader.h"
 
-unsigned int program;
+CShader shader;
 unsigned int VAO;
 unsigned int VBO;
 
-std::string readShaderFile(const char* name)
-{
-	std::ifstream shaderFile(name);
-
-	std::stringstream ss;
-	ss << shaderFile.rdbuf();
-
-	return ss.str();
-}
-
-unsigned int compileShader(const char* shaderString, GLenum type)
-{
-	const char* shaderSource = shaderString;
-	unsigned int shader = glCreateShader(type);
-	glShaderSource(shader, 1, &shaderSource, nullptr);
-	glCompileShader(shader);
-	return shader;
-}
-
-void shaderErrors(unsigned int shader, const char* type)
-{
-	int success;
-	char infoLog[512];
-
-	if (type != "PROGRAM")
-	{
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-			std::cout << type << "_ERROR:\n" << infoLog << std::endl;
-		}
-	}
-	else
-	{
-		glGetProgramiv(shader, GL_LINK_STATUS, &success);
-		if (!success)
-		{
-			glGetProgramInfoLog(shader, 512, nullptr, infoLog);
-			std::cout << type << "_ERROR:\n" << infoLog << std::endl;
-		}
-	}
-}
-
-unsigned int initShader(const std::string& vertexFileSource, const std::string& fragmentFileSource)
-{
-	unsigned int vertex = compileShader(vertexFileSource.c_str(), GL_VERTEX_SHADER);
-	shaderErrors(vertex, "VERTEX");
-	unsigned int fragment = compileShader(fragmentFileSource.c_str(), GL_FRAGMENT_SHADER);
-	shaderErrors(fragment, "FRAGMENT");
-
-	unsigned int program = glCreateProgram();
-	glAttachShader(program, vertex);
-	glAttachShader(program, fragment);
-	glLinkProgram(program);
-	shaderErrors(program, "PROGRAM");
-
-	glDeleteShader(vertex);
-	glDeleteShader(fragment);
-
-	return program;
-}
-
 void init()
 {
-	program = initShader(readShaderFile("src/myVertexShader.vert"), readShaderFile("src/DuskToDawn.frag"));
-
 	float vertices[]
 	{
 		-1.0f, -1.0f, 0.0f, 1.0f,
@@ -86,6 +21,8 @@ void init()
 		-1.0f, 1.0f, 0.0f, 1.0f,
 		1.0f, 1.0f, 0.0f, 1.0f
 	};
+
+	shader = CShader(CShader::ReadFile("src/myVertexShader.vert"), CShader::ReadFile("src/DuskToDawn.frag"));
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -106,12 +43,12 @@ void loop(float time)
 	glClearColor(0.1f, 0.3f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glUseProgram(program);
-
-	glUniform2fv(0, 1, &CWindow::currentWindow->GetFrameBuffer()[0]);
+	shader.Use();
+	
+	shader(0, CWindow::currentWindow->GetFrameBuffer());
 	SVector2 mousePos(CWindow::currentWindow->GetCursosPosition().x, CWindow::currentWindow->GetFrameBuffer().y - CWindow::currentWindow->GetCursosPosition().y);
-	glUniform2fv(1, 1, &mousePos[0]);
-	glUniform1f(2, time);
+	shader(1, mousePos);
+	shader(2, time);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -119,7 +56,7 @@ void loop(float time)
 
 void end()
 {
-	glDeleteProgram(program);
+	shader.Delete();
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 }
