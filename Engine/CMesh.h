@@ -1,5 +1,4 @@
 #ifndef CMESH_H
-#ifndef CMESH_H
 #define CMESH_H
 #include <vector>
 #include <iostream>
@@ -19,9 +18,9 @@ class CMesh
     void SetUVS(const std::vector <SVector2>& uv);
     void SetNormals(const std::vector<SVector3>& normals);
     void SetIndices(const std::vector<unsigned int>& indices);
-    void GetVertices(std::vector<SVector3>& vertices)const;
-    void GetUVS(std::vector<SVector2>& uvs)const;
-    void GetNormals(std::vector<SVector3>& normals)const;
+	void GetVertices(std::vector<SVector3>& vertices);
+	void GetUVS(std::vector<SVector2>& uvs);
+	void GetNormals(std::vector<SVector3>& normals);
     void GetIndices(std::vector<unsigned int>& indices);
 };
 #endif

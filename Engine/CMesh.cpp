@@ -19,15 +19,15 @@ void CMesh::SetIndices(const std::vector<unsigned int>& indices)
 {
     m_indices=indices;
 }
-void CMesh::GetVertices(std::vector<SVector3>& vertices)const
+void CMesh::GetVertices(std::vector<SVector3>& vertices)
 {
 	vertices = m_vertices;
 }
-void CMesh::GetUVS(std::vector<SVector2>& uvs)const
+void CMesh::GetUVS(std::vector<SVector2>& uvs)
 {
 	uvs = m_uvs;
 }
-void CMesh::GetNormals(std::vector<SVector3>& normals)const
+void CMesh::GetNormals(std::vector<SVector3>& normals)
 {
 	normals = m_normals;
 }
