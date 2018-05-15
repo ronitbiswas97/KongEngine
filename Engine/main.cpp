@@ -6,9 +6,9 @@
 #include <sstream>
 
 #include "CWindow.h"
-#include "CShader.h"
+#include "CMaterial.h"
 
-CShader shader;
+CMaterial material;
 unsigned int VAO;
 unsigned int VBO;
 
@@ -22,7 +22,7 @@ void init()
 		1.0f, 1.0f, 0.0f, 1.0f
 	};
 
-	shader = CShader(CShader::ReadFile("src/myVertexShader.vert"), CShader::ReadFile("src/DuskToDawn.frag"));
+	material.shader = CShader(CShader::ReadFile("src/myVertexShader.vert"), CShader::ReadFile("src/DuskToDawn.frag"));
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -43,12 +43,12 @@ void loop(float time)
 	glClearColor(0.1f, 0.3f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	shader.Use();
-	
-	shader(0, CWindow::currentWindow->GetFrameBuffer());
+	material.shader.Use();
+
+	material.SetVector2(0, CWindow::currentWindow->GetFrameBuffer());
 	SVector2 mousePos(CWindow::currentWindow->GetCursosPosition().x, CWindow::currentWindow->GetFrameBuffer().y - CWindow::currentWindow->GetCursosPosition().y);
-	shader(1, mousePos);
-	shader(2, time);
+	material.SetVector2(1, mousePos);
+	material.SetFloat(2, time);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -56,7 +56,7 @@ void loop(float time)
 
 void end()
 {
-	shader.Delete();
+	material.shader.Delete();
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 }
