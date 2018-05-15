@@ -35,3 +35,20 @@ void CMesh::GetIndices(std::vector<unsigned int>& indices)
 {
 	indices = m_indices;
 }
+std::vector<SVector3> CMesh::GetVertices()const
+{
+	return m_vertices;
+}
+std::vector<SVector2> CMesh::GetUVS()const
+{
+	return m_uvs;
+}
+
+std::vector<SVector3> CMesh::GetNormals()const
+{
+	return m_normals;
+}
+std::vector<unsigned int> CMesh::GetIndices()const
+{
+	return m_indices;
+}

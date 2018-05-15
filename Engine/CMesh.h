@@ -22,5 +22,10 @@ class CMesh
 	void GetUVS(std::vector<SVector2>& uvs);
 	void GetNormals(std::vector<SVector3>& normals);
     void GetIndices(std::vector<unsigned int>& indices);
+
+	std::vector<SVector3> GetVertices()const;
+	std::vector<SVector2> GetUVS()const;
+	std::vector<SVector3> GetNormals()const;
+	std::vector<unsigned int> GetIndices()const;
 };
 #endif
