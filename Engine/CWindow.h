@@ -18,6 +18,7 @@ private:
 
 public:
 	CWindow(int width, int height, const char* name);
+	bool Close();
 	SVector2 GetCursosPosition()const;
 	SVector2 GetFrameBuffer()const;
 	GLFWwindow* getWindow() const;
