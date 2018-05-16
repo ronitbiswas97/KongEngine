@@ -7,21 +7,30 @@
 
 #include "CWindow.h"
 #include "CMaterial.h"
+#include "CMesh.h"
+#include "CResources.h"
 
 CMaterial material;
+CMesh mesh;
+
 unsigned int VAO;
 unsigned int VBO;
 
 void init()
 {
-	float vertices[]
+#if 0
+	std::vector<SVector3> vertices
 	{
-		-1.0f, -1.0f, 0.0f, 1.0f,
-		1.0f, -1.0f, 0.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 0.0f, 1.0f
+		SVector3(-1.0f, -1.0f, 0.0f),
+		SVector3(1.0f, -1.0f, 0.0f),
+		SVector3(-1.0f, 1.0f, 0.0f),
+		SVector3(1.0f, 1.0f, 0.0f)
 	};
 
+	mesh.SetVertices(vertices);
+#endif
+
+	mesh = CResources::Loader("C:/Users/UserHp/Desktop/cube.obj");
 	material.shader = CShader(CShader::ReadFile("src/myVertexShader.vert"), CShader::ReadFile("src/DuskToDawn.frag"));
 
 	glGenVertexArrays(1, &VAO);
@@ -29,9 +38,9 @@ void init()
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, mesh.GetVertices().size() * sizeof(mesh.GetVertices()[0]), &mesh.GetVertices()[0], GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -45,13 +54,18 @@ void loop(float time)
 
 	material.shader.Use();
 
+	SMatrix4x4 M;
+	M = SMatrix4x4::Rotate(M, glfwGetTime(), SVector3(1, 1, 0));
+
 	material.SetVector2(0, CWindow::currentWindow->GetFrameBuffer());
 	SVector2 mousePos(CWindow::currentWindow->GetCursosPosition().x, CWindow::currentWindow->GetFrameBuffer().y - CWindow::currentWindow->GetCursosPosition().y);
 	material.SetVector2(1, mousePos);
 	material.SetFloat(2, time);
 
+	material.SetMatrix4x4(6, M);
+
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh.GetVertices().size());
 }
 
 void end()
