@@ -30,7 +30,7 @@ SVector2 CWindow::GetFrameBuffer() const
 	return frameBufferSize;
 }
 
-GLFWwindow* CWindow::getWindow() const
+GLFWwindow* CWindow::GetWindow() const
 {
 	return m_window;
 }
