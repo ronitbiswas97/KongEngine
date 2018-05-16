@@ -41,7 +41,10 @@ void CWindow::CursorPosition(double xPos, double yPos)
 	mousePosition.y = yPos;
 }
 
-
+bool CWindow::Close()
+{
+	return glfwWindowShouldClose(getWindow());
+}
 
 void CWindow::FrameBufferSize(int width, int height)
 {
