@@ -65,7 +65,7 @@ void loop(float time)
 	material.SetMatrix4x4(6, M);
 
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh.GetVertices().size());
+	glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertices().size());
 }
 
 void end()
