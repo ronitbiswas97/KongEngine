@@ -21,7 +21,7 @@ public:
 	bool Close();
 	SVector2 GetCursosPosition()const;
 	SVector2 GetFrameBuffer()const;
-	GLFWwindow* getWindow() const;
+	GLFWwindow* GetWindow() const;
 
 private:
 	void CursorPosition(double xPos, double yPos);
