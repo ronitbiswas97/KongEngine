@@ -1,5 +1,3 @@
-#include <glad\glad.h>
-
 #include <iostream>
 #include "CWindow.h"
 
@@ -10,7 +8,7 @@ CWindow::CWindow(int width, int height, const char * name)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	m_window = glfwCreateWindow(frameBufferSize.x, frameBufferSize.y, m_name, nullptr, nullptr);
 
@@ -18,6 +16,12 @@ CWindow::CWindow(int width, int height, const char * name)
 	glfwSetFramebufferSizeCallback(m_window, FrameBufferSizeCallBack);
 	glfwSetCursorPosCallback(m_window, CursorPosCallBack);
 	currentWindow = this;
+}
+
+CWindow::~CWindow()
+{
+	glfwDestroyWindow(m_window);
+	glfwTerminate();
 }
 
 SVector2 CWindow::GetCursosPosition() const
@@ -41,15 +45,15 @@ void CWindow::CursorPosition(double xPos, double yPos)
 	mousePosition.y = yPos;
 }
 
-bool CWindow::Close()
-{
-	return glfwWindowShouldClose(getWindow());
-}
-
 void CWindow::FrameBufferSize(int width, int height)
 {
 	frameBufferSize.x = width;
 	frameBufferSize.y = height;
+}
+
+bool CWindow::Close()
+{
+	return glfwWindowShouldClose(GetWindow());
 }
 
 void CWindow::FrameBufferSizeCallBack(GLFWwindow* window, int width, int height)
