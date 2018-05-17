@@ -10,11 +10,12 @@
 #include "CMesh.h"
 #include "CResources.h"
 #include "CVertexBuffer.h"
+#include "CVertexArray.h"
 
 CMaterial material;
 CMesh mesh;
 
-unsigned int VAO;
+CVertexArray* vA;
 CVertexBuffer* vB;
 
 void init()
@@ -24,13 +25,9 @@ void init()
 	mesh = CResources::Loader("C:/Users/UserHp/Desktop/torus.obj");
 	material.shader = CShader(CShader::ReadFile("src/myVertexShader.vert"), CShader::ReadFile("src/SimpleFrag.frag"));
 
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
+	vA = new CVertexArray;
 	vB = new CVertexBuffer(mesh.GetVertices().size() * sizeof(mesh.GetVertices()[0]), &mesh.GetVertices()[0]);
-	
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-	glEnableVertexAttribArray(0);
+	vA->AddAttribute(0, 3, 0, nullptr);
 }
 
 void loop(float time)
@@ -44,24 +41,24 @@ void loop(float time)
 	SMatrix4x4 M;
 	M = SMatrix4x4::Scale(M, SVector3(0.5));
 	M = SMatrix4x4::Rotate(M, glfwGetTime(), SVector3(1, 1, 1));
-
-	material.SetVector2(0, CWindow::currentWindow->GetFrameBuffer());
-	SVector2 mousePos(CWindow::currentWindow->GetCursosPosition().x, CWindow::currentWindow->GetFrameBuffer().y - CWindow::currentWindow->GetCursosPosition().y);
-	material.SetVector2(1, mousePos);
-	material.SetFloat(2, time);
+	SMatrix4x4 V;
+	V = SMatrix4x4::LookAt(SVector3(0, 0, 3), SVector3(0, 0, 0), SVector3(0, 1, 0));
+	SMatrix4x4 P;
+	P = SMatrix4x4::Ortho(-6, 6, -6, 6, -10, 10);
 
 	material.SetMatrix4x4(6, M);
+	material.SetMatrix4x4(7, V);
+	material.SetMatrix4x4(8, P);
 
-	glBindVertexArray(VAO);
+	vA->Bind();
 	glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertices().size());
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void end()
 {
 	material.shader.Delete();
 	vB->Destroy();
-	glDeleteVertexArrays(1, &VAO);
+	vA->Destroy();
 }
 
 int main()
