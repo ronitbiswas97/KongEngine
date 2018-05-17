@@ -3,6 +3,7 @@
 CVertexArray::CVertexArray()
 {
 	glGenVertexArrays(1, &m_vertexArray);
+	glBindVertexArray(m_vertexArray);
 }
 void CVertexArray::AddAttribute(int index, int size, size_t stride, const void* offset)
 {
