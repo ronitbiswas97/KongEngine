@@ -8,7 +8,7 @@ CVertexArray::CVertexArray()
 void CVertexArray::AddAttribute(int index, int size, size_t stride, const void* offset)
 {
 	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, offset);
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(index);
 }
 void CVertexArray::Bind()
 {	
