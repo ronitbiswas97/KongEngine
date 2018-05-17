@@ -9,53 +9,41 @@
 #include "CMaterial.h"
 #include "CMesh.h"
 #include "CResources.h"
+#include "CVertexBuffer.h"
 
 CMaterial material;
 CMesh mesh;
 
 unsigned int VAO;
-unsigned int VBO;
+CVertexBuffer* vB;
 
 void init()
 {
-#if 0
-	std::vector<SVector3> vertices
-	{
-		SVector3(-1.0f, -1.0f, 0.0f),
-		SVector3(1.0f, -1.0f, 0.0f),
-		SVector3(-1.0f, 1.0f, 0.0f),
-		SVector3(1.0f, 1.0f, 0.0f)
-	};
+	glEnable(GL_DEPTH_TEST);
 
-	mesh.SetVertices(vertices);
-#endif
-
-	mesh = CResources::Loader("C:/Users/UserHp/Desktop/cube.obj");
-	material.shader = CShader(CShader::ReadFile("src/myVertexShader.vert"), CShader::ReadFile("src/DuskToDawn.frag"));
+	mesh = CResources::Loader("C:/Users/UserHp/Desktop/torus.obj");
+	material.shader = CShader(CShader::ReadFile("src/myVertexShader.vert"), CShader::ReadFile("src/SimpleFrag.frag"));
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, mesh.GetVertices().size() * sizeof(mesh.GetVertices()[0]), &mesh.GetVertices()[0], GL_STATIC_DRAW);
-
+	vB = new CVertexBuffer(mesh.GetVertices().size() * sizeof(mesh.GetVertices()[0]), &mesh.GetVertices()[0]);
+	
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void loop(float time)
 {
 	glViewport(0, 0, CWindow::currentWindow->GetFrameBuffer().x, CWindow::currentWindow->GetFrameBuffer().y);
 	glClearColor(0.1f, 0.3f, 0.6f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	material.shader.Use();
 
 	SMatrix4x4 M;
-	M = SMatrix4x4::Rotate(M, glfwGetTime(), SVector3(1, 1, 0));
+	M = SMatrix4x4::Scale(M, SVector3(0.5));
+	M = SMatrix4x4::Rotate(M, glfwGetTime(), SVector3(1, 1, 1));
 
 	material.SetVector2(0, CWindow::currentWindow->GetFrameBuffer());
 	SVector2 mousePos(CWindow::currentWindow->GetCursosPosition().x, CWindow::currentWindow->GetFrameBuffer().y - CWindow::currentWindow->GetCursosPosition().y);
@@ -66,12 +54,13 @@ void loop(float time)
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertices().size());
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void end()
 {
 	material.shader.Delete();
-	glDeleteBuffers(1, &VBO);
+	vB->Destroy();
 	glDeleteVertexArrays(1, &VAO);
 }
 
@@ -83,11 +72,11 @@ int main()
 
 	init();
 
-	while (!glfwWindowShouldClose(CWindow::currentWindow->getWindow()))
+	while (!CWindow::currentWindow->Close())
 	{
 		loop(glfwGetTime());
 
-		glfwSwapBuffers(CWindow::currentWindow->getWindow());
+		glfwSwapBuffers(CWindow::currentWindow->GetWindow());
 		glfwPollEvents();
 	}
 
