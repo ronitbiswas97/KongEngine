@@ -1,3 +1,4 @@
+#include <glad\glad.h>
 #include <iostream>
 #include "CWindow.h"
 
@@ -54,6 +55,23 @@ void CWindow::FrameBufferSize(int width, int height)
 bool CWindow::Close()
 {
 	return glfwWindowShouldClose(GetWindow());
+}
+
+void CWindow::EnableTests()
+{
+	glEnable(GL_DEPTH_TEST);
+}
+
+void CWindow::ClearBuffers()
+{
+	glViewport(0, 0, CWindow::currentWindow->GetFrameBuffer().x, CWindow::currentWindow->GetFrameBuffer().y);
+	glClearColor(m_color.x, m_color.y, m_color.z, m_color.w);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void CWindow::SetColor(const SVector4& color)
+{
+	m_color = color;
 }
 
 void CWindow::FrameBufferSizeCallBack(GLFWwindow* window, int width, int height)
