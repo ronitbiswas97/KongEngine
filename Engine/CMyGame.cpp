@@ -1,13 +1,5 @@
 #include "CMyGame.h"
-
-#include "CMaterial.h"
-#include "CMesh.h"
-#include "CResources.h"
-#include "CVertexBuffer.h"
-#include "CVertexArray.h"
-#include "CTime.h"
-
-#include <iostream>
+#include "CoreEngine.h"
 
 CMaterial material;
 CMesh mesh;
@@ -37,13 +29,13 @@ void CMyGame::Start()
 
 void CMyGame::Update()
 {
-	std::cout << CTime::deltaTime << std::endl;
-
 	material.shader.Use();
 
 	SMatrix4x4 M;
-	M = SMatrix4x4::Scale(M, SVector3(0.5f));
+	M = SMatrix4x4::Translate(M, SVector3(0.0f, 0.0f, -3.0f));
+	M = SMatrix4x4::Scale(M, SVector3(0.25f));
 	M = SMatrix4x4::Rotate(M, static_cast<float>(glfwGetTime()), SVector3(1.0f, 1.0f, 1.0f));
+
 	SMatrix4x4 V;
 	V = SMatrix4x4::LookAt(eye, eye + target, up);
 	SMatrix4x4 P;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CWindow.h"
+#include "CTime.h"
 
 class CGame
 {

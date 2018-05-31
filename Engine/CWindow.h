@@ -2,8 +2,8 @@
 #define CWINDOW_H
 
 #include <GLFW\glfw3.h>
-#include "SVector2.h"
-#include "SVector4.h"
+#include "Maths.h"
+#include "CInput.h"
 
 class CWindow
 {
@@ -12,7 +12,6 @@ public:
 private:
 	const char* m_name;
 	SVector2 frameBufferSize;
-	SVector2 mousePosition;
 	GLFWwindow* m_window;
 	SVector4 m_color;
 
@@ -23,7 +22,6 @@ public:
 	void EnableTests();
 	void ClearBuffers();
 	void SetColor(const SVector4& color);
-	SVector2 GetCursosPosition()const;
 	SVector2 GetFrameBuffer()const;
 	GLFWwindow* GetWindow() const;
 

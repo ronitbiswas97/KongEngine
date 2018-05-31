@@ -1,6 +1,5 @@
 #include <glad\glad.h>
 #include "CGame.h"
-#include "CTime.h"
 
 CGame::CGame(int width, int height, const char * name)
 	: window(width, height, name)
