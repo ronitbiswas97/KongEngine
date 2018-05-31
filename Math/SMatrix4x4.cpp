@@ -141,22 +141,32 @@ SMatrix4x4 SMatrix4x4::Transpose(const SMatrix4x4& matrix)
 
 SMatrix4x4 SMatrix4x4::Translate(const SMatrix4x4& matrix, const SVector3& vector)
 {
-	SMatrix4x4 result(matrix);
+	/*SMatrix4x4 result(matrix);
 	result[3].x += vector.x;
 	result[3].y += vector.y;
 	result[3].z += vector.z;
 
-	return result;
+	return result;*/
+
+	SMatrix4x4 r(matrix);
+	r[3] = vector[0] * matrix[0] + vector[1] * matrix[1] + vector[2] * matrix[2] + 1.0f * matrix[3];
+	return r;
 }
 
 SMatrix4x4 SMatrix4x4::Scale(const SMatrix4x4& matrix, const SVector3& vector)
 {
-	SMatrix4x4 result(matrix);
+	/*SMatrix4x4 result(matrix);
 	result[0] *= vector.x;
 	result[1] *= vector.y;
 	result[2] *= vector.z;
 
-	return result;
+	return result;*/
+	SMatrix4x4 r(matrix);
+	r[0] = vector[0] * matrix[0];
+	r[1] = vector[1] * matrix[1];
+	r[2] = vector[2] * matrix[2];
+	r[3] = matrix[3];
+	return r;
 }
 
 SMatrix4x4 SMatrix4x4::Rotate(const SMatrix4x4& matrix, float angle, const SVector3 & axis)
@@ -198,11 +208,12 @@ SMatrix4x4 SMatrix4x4::Ortho(float left, float right, float bottom, float top, f
 SMatrix4x4 SMatrix4x4::Perspective(float fovy, float apect, float near, float far)
 {
 	SMatrix4x4 result;
-	result[0][0] = 1.0f / (tan(fovy / 2.0f) * apect);
-	result[1][1] = 1.0f / tan(fovy);
-	result[2][2] = -(far * near) / (far - near);
+	result[0][0] = 1.0f / (tan(fovy * 0.5f) * apect);
+	result[1][1] = 1.0f / tan(fovy * 0.5f);
+	result[2][2] = -(far + near) / (far - near);
 	result[2][3] = -1.0f;
 	result[3][2] = -(2.0f * far * near) / (far - near);
+	result[3][3] = 0.0f;
 
 	return result;
 }
