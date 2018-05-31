@@ -39,7 +39,7 @@ void CMyGame::Update()
 	SMatrix4x4 V;
 	V = SMatrix4x4::LookAt(eye, eye + target, up);
 	SMatrix4x4 P;
-	P = SMatrix4x4::Perspective((30.0f * 3.1416f / 180.0f), CWindow::currentWindow->GetFrameBuffer().x / CWindow::currentWindow->GetFrameBuffer().y, 0.1f, 100.0f);
+	P = SMatrix4x4::Perspective(Radians(30.0f), CWindow::currentWindow->GetFrameBuffer().x / CWindow::currentWindow->GetFrameBuffer().y, 0.1f, 100.0f);
 
 	material.SetMatrix4x4(6, M);
 	material.SetMatrix4x4(7, V);
